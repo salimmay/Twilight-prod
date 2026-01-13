@@ -1,0 +1,115 @@
+---
+import "../styles/global.css";
+import InteractiveCursor from "../components/InteractiveCursor.jsx";
+import { ClientRouter } from "astro:transitions";
+import Navigation from "../components/Navigation.jsx";
+import ContactButton from "../components/ContactButton.jsx";
+import PageTransition from "../components/PageTransition.astro";
+import Lenis from '@studio-freight/lenis'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Twilight Prod</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <ClientRouter />
+  </head>
+  <body>
+    <PageTransition />
+    <InteractiveCursor client:only="react" />
+    <Navigation client:load />
+    <ContactButton client:load />
+    <!-- Film Grain Texture -->
+    <div
+      class="fixed inset-0 pointer-events-none opacity-[0.05] z-50 mix-blend-overlay"
+      style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');"
+    >
+    </div>
+
+    <!-- Smooth Scroll Wrapper -->
+    <main id="smooth-wrapper">
+      <slot />
+      <!-- FOOTER (Global Footer) -->
+      <footer class="py-20 border-t border-white/5 relative z-10 bg-void">
+        <div
+          class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 text-white/40 font-mono text-xs tracking-widest uppercase"
+        >
+          <!-- Left: Copyright -->
+          <div class="flex flex-col gap-2">
+            <span class="text-white">TWILIGHT PROD. TN</span>
+            <span>© 2026 All Rights Reserved</span>
+          </div>
+
+          <!-- Right: Location -->
+          <div class="md:text-right flex flex-col gap-2">
+            <span class="text-sunset">Ennasr 1, Ariana</span>
+            <span>App-M2, Résidence Yesmine</span>
+            <a
+              href="mailto:contact@twilight.tn"
+              class="hover:text-white transition-colors mt-2"
+              >contact@twilight.tn</a
+            >
+            <a
+              href="tel:+21654615700"
+              class="hover:text-white transition-colors">+216 54 615 700</a
+            >
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      import Lenis from "lenis";
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      // 1. Setup Global Variables
+      let lenis;
+
+      // 2. Initialize Function (Runs once)
+      function init() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        lenis = new Lenis({
+          duration: 1.2,
+          smoothWheel: true,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect GSAP to Lenis
+        lenis.on("scroll", ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+      }
+
+      init();
+
+      // 3. Handle Page Swaps (The View Transition Logic)
+      document.addEventListener("astro:before-swap", () => {
+        // Kill all running animations before leaving the page
+        // This prevents "ghost" animations from slowing down the new page load
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+        gsap.globalTimeline.clear();
+      });
+
+      document.addEventListener("astro:page-load", () => {
+        // Re-calculate layout after the new page is ready
+        ScrollTrigger.refresh();
+      });
+    </script>
+  </body>
+</html>

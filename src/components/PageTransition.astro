@@ -1,0 +1,60 @@
+<div id="page-transition" class="fixed inset-0 z-[9999] pointer-events-none flex flex-col">
+  <!-- Top Shutter -->
+  <div class="shutter-top bg-void w-full h-[50vh] translate-y-[-100%] border-b border-white/10"></div>
+  
+  <!-- Logo (Centered) -->
+  <div class="absolute inset-0 flex items-center justify-center z-20">
+    <span class="loader-text font-display font-bold text-4xl text-white opacity-0">TWILIGHT</span>
+  </div>
+
+  <!-- Bottom Shutter -->
+  <div class="shutter-bottom bg-void w-full h-[50vh] translate-y-[100%] border-t border-white/10"></div>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+
+  // Function to run the entrance animation (Cover screen)
+  function animateIn() {
+    const tl = gsap.timeline();
+    
+    // 1. Shutters close
+    tl.to('.shutter-top', { y: '0%', duration: 0.5, ease: 'power4.inOut' }, 0)
+      .to('.shutter-bottom', { y: '0%', duration: 0.5, ease: 'power4.inOut' }, 0)
+      // 2. Logo appears
+      .to('.loader-text', { opacity: 1, duration: 0.3 }, 0.4);
+      
+    return tl;
+  }
+
+  // Function to run the exit animation (Reveal new page)
+  function animateOut() {
+    const tl = gsap.timeline();
+    
+    // 1. Logo fades
+    tl.to('.loader-text', { opacity: 0, duration: 0.3 })
+      // 2. Shutters open
+      .to('.shutter-top', { y: '-100%', duration: 0.8, ease: 'power4.inOut' }, 0.2)
+      .to('.shutter-bottom', { y: '100%', duration: 0.8, ease: 'power4.inOut' }, 0.2);
+      
+    return tl;
+  }
+
+  // Hook into Astro's View Transitions
+  document.addEventListener('astro:before-preparation', (event) => {
+    const originalLoader = event.loader;
+    
+    // Override the default loader
+    event.loader = async function() {
+      // 1. Play "Close Curtains" animation
+      await animateIn();
+      // 2. Wait for the new page data to be fetched
+      await originalLoader();
+    };
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    // 3. Play "Open Curtains" animation once new DOM is ready
+    animateOut();
+  });
+</script>

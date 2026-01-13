@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <section class="min-h-screen pt-40 px-6 relative overflow-hidden">
+    
+    <!-- BACKGROUND TEXTURE -->
+    <div class="fixed top-0 right-0 w-[50vw] h-[50vw] bg-sunset opacity-[0.05] blur-[150px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+      
+      <!-- LEFT: The Manifesto -->
+      <div class="col-span-1 md:col-span-8">
+        <span class="text-sunset font-mono tracking-widest uppercase text-sm mb-6 block">The Philosophy</span>
+        
+        <h1 class="text-5xl md:text-8xl font-display font-bold text-white leading-[0.9] mb-12">
+          WE DON'T JUST <br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">RECORD EVENTS.</span>
+        </h1>
+        
+        <div class="space-y-8 text-xl md:text-2xl text-gray-400 font-light leading-relaxed max-w-2xl">
+          <p>
+            Twilight Production is a <strong class="text-white">360° creative agency</strong> born in Tunis. We bridge the gap between technical broadcasting and cinematic storytelling.
+          </p>
+          <p>
+            From the chaos of a live stadium to the precision of a bank commercial, we operate with a single heartbeat.
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT: The Stats -->
+      <div class="col-span-1 md:col-span-4 flex flex-col justify-center gap-12 md:pl-12 md:border-l border-white/10">
+        <div class="stat-item">
+          <span class="block text-6xl font-display font-bold text-white mb-2 counter">10+</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sunset">Years Experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="block text-6xl font-display font-bold text-white mb-2 counter">360°</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sunset">Coverage</span>
+        </div>
+        <div class="stat-item">
+          <span class="block text-6xl font-display font-bold text-white mb-2 counter">4K</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sunset">Broadcast Standard</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- THE TEAM SECTION -->
+    <div class="mt-40 mb-20">
+      <h2 class="text-xs font-mono uppercase tracking-widest text-white/40 mb-10 border-b border-white/10 pb-4">Executive Team</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Aymen -->
+        <div class="group cursor-pointer">
+          <div class="h-[400px] w-full bg-slate relative overflow-hidden mb-6 filter grayscale hover:grayscale-0 transition-all duration-500">
+            <!-- Placeholder for Photo -->
+            <div class="absolute inset-0 flex items-center justify-center text-white/20 font-display text-4xl font-bold opacity-30 group-hover:scale-110 transition-transform duration-700">AA</div>
+          </div>
+          <h3 class="text-2xl font-display font-bold text-white">Aymen Abdelhedi</h3>
+          <p class="text-sunset font-mono text-xs uppercase tracking-widest mt-1">Executive Producer</p>
+        </div>
+
+        <!-- Taha -->
+        <div class="group cursor-pointer">
+          <div class="h-[400px] w-full bg-slate relative overflow-hidden mb-6 filter grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="absolute inset-0 flex items-center justify-center text-white/20 font-display text-4xl font-bold opacity-30 group-hover:scale-110 transition-transform duration-700">TA</div>
+          </div>
+          <h3 class="text-2xl font-display font-bold text-white">Taha Abdelhedi</h3>
+          <p class="text-sunset font-mono text-xs uppercase tracking-widest mt-1">Director of Photography</p>
+        </div>
+
+        <!-- Med Nour -->
+        <div class="group cursor-pointer">
+          <div class="h-[400px] w-full bg-slate relative overflow-hidden mb-6 filter grayscale hover:grayscale-0 transition-all duration-500">
+             <div class="absolute inset-0 flex items-center justify-center text-white/20 font-display text-4xl font-bold opacity-30 group-hover:scale-110 transition-transform duration-700">MNA</div>
+          </div>
+          <h3 class="text-2xl font-display font-bold text-white">Med Nour Abdelhedi</h3>
+          <p class="text-sunset font-mono text-xs uppercase tracking-widest mt-1">Director / Editor</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+    import { gsap } from "gsap";
+    
+    // Simple entrance animation
+    const tl = gsap.timeline();
+    tl.from("h1", { y: 50, opacity: 0, duration: 1, delay: 0.2 })
+      .from(".stat-item", { y: 20, opacity: 0, stagger: 0.1, duration: 0.8 }, "-=0.5");
+  </script>
+</Layout>

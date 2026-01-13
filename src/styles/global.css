@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {  
+  /* Colors */
+  --color-void: #030014;    /* bg-void */
+  --color-slate: #1a1d2d;   /* bg-slate */
+  --color-sunset: #ff4b1f;  /* text-sunset / bg-sunset */
+
+  /* Fonts */
+  --font-display: "Syne", sans-serif; /* font-display */
+  --font-body: "Inter", sans-serif;   /* font-body */
+  
+  /* Animation Utilities */
+  --animate-fade-in: fadeIn 1s ease-out;
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    /* Apply variables using standard Tailwind utility classes */
+    @apply bg-void text-white font-body overflow-x-hidden;
+    cursor: none; /* Hide default cursor */
+  }
+  /* Text Stroke Effect (Outline text) */
+.text-stroke-sunset {
+  -webkit-text-stroke: 1px var(--color-sunset);
+  color: transparent;
+}
+.text-stroke-white {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  color: transparent;
+}
+
+/* Custom Scrollbar (optional, to match the dark theme) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-slate);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sunset);
+}
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Fix for touch devices (bring back cursor) */
+@media (hover: none) {
+  body { cursor: auto; }
+}

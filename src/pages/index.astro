@@ -1,16 +1,148 @@
 ---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 
+// 1. Fetch & Sort Posts
+const posts = (await getCollection('blog')).sort(
+	(a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+
+// 2. Helper to assign "Vibe" images since we don't have real thumbnails yet
+// This ensures the site looks good immediately.
+const getPlaceholderImage = (category, title) => {
+  const term = category.toLowerCase();
+  if (term.includes('cinema') || title.includes('Sahara')) return 'https://images.unsplash.com/photo-1541103554737-fe33e243b45c?q=80&w=2000&auto=format&fit=crop'; // Desert
+  if (term.includes('tv') || title.includes('Health')) return 'https://images.unsplash.com/photo-1533422902779-aff35862e462?q=80&w=2000&auto=format&fit=crop'; // Cinematic Light
+  if (term.includes('motion') || title.includes('Tech')) return 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop'; // Abstract Tech
+  if (term.includes('live')) return 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2000&auto=format&fit=crop'; // Event
+  return 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop'; // Default
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  
+  <!-- HERO: Video Background -->
+  <section class="relative h-screen w-full overflow-hidden flex flex-col justify-center items-center">
+    
+    <!-- Background Video (Loop) -->
+    <div class="absolute inset-0 z-0">
+      <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-50 grayscale mix-blend-screen">
+        <!-- Using a high-quality creative commons cinematic loop -->
+        <source src="https://cdn.coverr.co/videos/coverr-foggy-forest-road-2524/1080p.mp4" type="video/mp4" />
+      </video>
+      <!-- Gradient Vingette -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030014_90%)]"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 text-center mix-blend-screen px-4">
+      <h1 class="hero-title font-display text-[15vw] md:text-[16vw] leading-[0.8] font-bold uppercase tracking-tighter text-white">
+        Twilight
+      </h1>
+      
+      <div class="hero-sub mt-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10 font-mono text-xs uppercase tracking-[0.4em] text-white/70">
+        <span>Tunis</span>
+        <span class="hidden md:inline">•</span>
+        <span>Visual Experiences</span>
+        <span class="hidden md:inline">•</span>
+        <span>Est. 2015</span>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 animate-bounce">
+      <span class="text-white/30 text-xs font-mono uppercase tracking-widest">Scroll</span>
+    </div>
+  </section>
+
+
+  <!-- PORTFOLIO GRID -->
+  <section class="relative z-10 bg-void min-h-screen py-32 px-4 md:px-12">
+    
+    <!-- Section Header -->
+    <div class="max-w-7xl mx-auto mb-20 flex items-end justify-between border-b border-white/10 pb-6">
+      <h2 class="text-white font-display text-4xl">Selected Works</h2>
+      <span class="text-sunset font-mono text-xs uppercase tracking-widest">{posts.length} Projects</span>
+    </div>
+
+    <!-- Asymmetrical Grid -->
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+      
+      {posts.map((post, index) => (
+        <a 
+          href={`/blog/${post.slug}`} 
+          class={`group block relative ${index % 2 !== 0 ? 'md:mt-32' : ''}`} 
+        >
+          <!-- Card Container -->
+          <div class="relative w-full aspect-[4/3] overflow-hidden bg-slate/50">
+            
+            <!-- The Image (Zoom on Hover) -->
+            <img 
+              src={getPlaceholderImage(post.data.category || post.data.service, post.data.title)} 
+              alt={post.data.title}
+              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+              style={`view-transition-name: img-${post.slug}`}
+            />
+            
+            <!-- Hover Overlay -->
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+          </div>
+
+          <!-- Card Info -->
+          <div class="mt-6 flex justify-between items-start border-t border-white/10 pt-4">
+            <div>
+              <span class="text-sunset font-mono text-[10px] uppercase tracking-widest mb-2 block">
+                {post.data.service}
+              </span>
+              <h3 
+                class="text-3xl md:text-5xl font-display font-bold text-white leading-none group-hover:text-stroke-sunset transition-all duration-300"
+                transition:name={`title-${post.slug}`}
+              >
+                {post.data.client}
+              </h3>
+            </div>
+            
+            <!-- Arrow Icon -->
+            <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-sunset group-hover:border-sunset transition-all duration-300">
+              <span class="text-white group-hover:text-black text-xl">↗</span>
+            </div>
+          </div>
+        </a>
+      ))}
+
+    </div>
+  </section>
+
+  <!-- GSAP Animation Script -->
+  <script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    
+    document.addEventListener('astro:page-load', () => {
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Hero Animation
+      gsap.from(".hero-title", { 
+        y: 100, 
+        opacity: 0, 
+        duration: 1.5, 
+        ease: "power4.out" 
+      });
+
+      // Grid Animation (Staggered Reveal)
+      const projects = gsap.utils.toArray('.group');
+      projects.forEach((project: any) => {
+        gsap.from(project, {
+          scrollTrigger: {
+            trigger: project,
+            start: "top 85%",
+          },
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out"
+        });
+      });
+    });
+  </script>
+</Layout>

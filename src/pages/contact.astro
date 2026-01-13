@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <!-- Added pt-48 (padding-top) to clear the fixed Navbar -->
+  <section class="min-h-screen pt-48 md:pt-56 px-6 md:px-12 relative overflow-hidden bg-void pb-20">
+    
+    <!-- Background Gradient Orb -->
+    <div class="fixed top-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-sunset opacity-[0.05] blur-[150px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
+      
+      <!-- LEFT COLUMN: Text & Info -->
+      <div>
+        <!-- RESTORED HEADLINE -->
+        <h1 class="text-6xl md:text-8xl font-display font-bold text-white mb-8 leading-[0.9]">
+          LET'S TALK <br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">VISION.</span>
+        </h1>
+        
+        <div class="space-y-8 text-lg text-gray-400 font-light leading-relaxed">
+          <p>
+            Ready to elevate your brand? Tell us about your project.
+            Whether it's a TV spot, a digital campaign, or a live event, we are ready to deploy.
+          </p>
+          
+          <!-- Contact Details Block -->
+          <div class="border-t border-white/10 pt-10 mt-12 space-y-8">
+            
+            <!-- Phone -->
+            <div>
+              <span class="block text-xs font-mono uppercase tracking-widest text-sunset mb-2">Mobile</span>
+              <a href="tel:+21654615700" class="text-3xl md:text-4xl text-white hover:text-sunset transition-colors font-display font-bold">
+                +216 54 615 700
+              </a>
+            </div>
+            
+            <!-- Email -->
+            <div>
+              <span class="block text-xs font-mono uppercase tracking-widest text-sunset mb-2">Email</span>
+              <a href="mailto:contact@twilight.tn" class="text-2xl md:text-3xl text-white hover:text-sunset transition-colors">
+                contact@twilight.tn
+              </a>
+            </div>
+            
+            <!-- Address -->
+            <div>
+              <span class="block text-xs font-mono uppercase tracking-widest text-sunset mb-2">Studio Address</span>
+              <p class="text-white text-lg leading-relaxed text-white/80">
+                App-M2, Résidence Yesmine,<br/>
+                Rue Hedi Nouira, Ennasr 1,<br/>
+                Ariana 2001, Tunisia
+              </p>
+              <a href="https://maps.google.com/?q=Ennasr+1+Ariana" target="_blank" class="inline-block mt-4 text-xs font-mono uppercase border-b border-sunset text-sunset hover:text-white hover:border-white transition-colors pb-1">
+                Get Directions ↗
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: The Briefing Form -->
+      <div class="bg-white/5 p-8 md:p-12 border border-white/10 backdrop-blur-sm relative group rounded-2xl">
+        <!-- Decoration Corner -->
+        <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-sunset rounded-tr-lg"></div>
+
+        <form class="space-y-8">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-xs font-mono uppercase tracking-widest text-white/50">Your Name</label>
+              <input type="text" class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-sunset transition-colors placeholder-white/10" placeholder="John Doe" />
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-mono uppercase tracking-widest text-white/50">Company / Brand</label>
+              <input type="text" class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-sunset transition-colors placeholder-white/10" placeholder="Brand Name" />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-mono uppercase tracking-widest text-white/50">Project Type</label>
+            <div class="grid grid-cols-2 gap-4 mt-3">
+              {['TV Commercial', 'Event Coverage', 'Motion Design', 'Social Media', 'Documentary', 'Other'].map(type => (
+                <label class="flex items-center gap-3 cursor-pointer group/item hover:bg-white/5 p-2 rounded transition-colors -ml-2">
+                  <input type="radio" name="type" class="peer hidden" />
+                  <div class="w-4 h-4 border border-white/30 rounded-full peer-checked:bg-sunset peer-checked:border-sunset transition-all"></div>
+                  <span class="text-sm text-gray-400 group-hover/item:text-white transition-colors">{type}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-mono uppercase tracking-widest text-white/50">Project Details</label>
+            <textarea rows="4" class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-sunset transition-colors placeholder-white/10" placeholder="Tell us about the scope, timeline, and goals..."></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-white text-black font-mono uppercase tracking-widest py-4 rounded hover:bg-sunset hover:text-white transition-all duration-300 mt-6 font-bold">
+            Send Briefing
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+</Layout>

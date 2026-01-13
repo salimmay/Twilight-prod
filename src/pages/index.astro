@@ -3,9 +3,10 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 // 1. Fetch & Sort Posts
-const posts = (await getCollection('blog')).sort(
-	(a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
-);
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(post => post.data.featured === true) // Filter by featured
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
 // 2. Helper to assign "Vibe" images since we don't have real thumbnails yet
 // This ensures the site looks good immediately.

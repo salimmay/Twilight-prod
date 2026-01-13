@@ -7,7 +7,6 @@ export default function Navigation() {
 
   useEffect(() => {
     // 1. Simple Entrance Animation (Entire Bar slides down)
-    // We only animate 'y' and 'opacity' of the container, avoiding conflicts with children
     gsap.fromTo(navRef.current, 
       { y: -100, opacity: 0 },
       { y: 0, opacity: 1, duration: 1, ease: "power4.out", delay: 0.5 }
@@ -15,15 +14,12 @@ export default function Navigation() {
 
     // 2. Scroll Listener
     const handleScroll = () => {
-      // Add background earlier (at 50px) to prevent overlap issues quickly
       if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
     };
-
-    // Run once on mount in case we reload halfway down the page
     handleScroll();
 
     window.addEventListener('scroll', handleScroll);
@@ -54,7 +50,7 @@ export default function Navigation() {
         
         {/* WORK LINK */}
         <a 
-          href="/"
+          href="/work"
           className="text-xs font-mono uppercase tracking-widest text-white/80 hover:text-white transition-colors relative group py-2"
         >
           Work

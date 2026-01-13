@@ -5,6 +5,7 @@ service: "IPTV Channel Creation"
 date: "2025-10-15"
 roles: ["Co-Production: Cerise Com", "Ambassador: Asma Jerbi"]
 youtubeId: "LXb3EKWsInQ"
+featured: true
 ---
 
 # The Future of Decor TV

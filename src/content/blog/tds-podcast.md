@@ -5,6 +5,7 @@ service: "Live Streaming & Podcast"
 date: "2025-04-30"
 roles: ["Producer: Aymen Abdelhedi", "DOP: Taha Abdelhedi", "Host: Elyes Khiari"]
 youtubeId: "jNQXAC9IVRw"
+featured: true
 ---
 
 # The Digital Pulse

@@ -4,6 +4,7 @@ client: "Teamwill Tunisia"
 service: "Motion Design"
 date: "2025-09-20"
 youtubeId: "tgbNymZ7vqY"
+featured: true
 ---
 
 # Finance Meets AI
